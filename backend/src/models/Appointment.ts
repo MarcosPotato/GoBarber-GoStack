@@ -1,3 +1,4 @@
+import { intervalToDuration } from 'date-fns';
 import { v4 } from 'uuid';
 
 class Appointment {
@@ -7,7 +8,7 @@ class Appointment {
 
 	date: Date;
 
-	constructor(provider: string, date: Date) {
+	constructor({ provider, date }: Omit<Appointment, 'id'>) {
 		this.id = v4();
 		this.provider = provider;
 		this.date = date;

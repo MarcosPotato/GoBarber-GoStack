@@ -11,10 +11,10 @@ appointmentsRouter.post('/', (request, response) => {
 
 	const alteredDate = startOfHour(parseISO(date));
 
-	const appointment = appointmentsRepository.createAppointment(
+	const appointment = appointmentsRepository.createAppointment({
 		provider,
-		alteredDate,
-	);
+		date: alteredDate,
+	});
 
 	if (appointmentsRepository.findByDate(alteredDate) !== null) {
 		return response.status(200).json(appointment);
@@ -23,6 +23,10 @@ appointmentsRouter.post('/', (request, response) => {
 	return response
 		.status(400)
 		.json({ error: 'This appointments is already booked' });
+});
+
+appointmentsRouter.get('/', (request, response) => {
+	return response.status(200).json(appointmentsRepository.getAppointments());
 });
 
 export default appointmentsRouter;
