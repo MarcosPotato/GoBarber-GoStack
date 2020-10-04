@@ -7,6 +7,7 @@ import AppointmentsRepository from '../repositories/AppointmentsRepository';
 interface Request {
 	provider: string;
 	date: Date;
+	provider_id: string;
 }
 
 class CreateAppointmentService {
@@ -16,15 +17,23 @@ class CreateAppointmentService {
 		this.appointmentsRepository = appointmentsRepository;
 	} */
 
-	public async execute({ provider, date }: Request): Promise<Appointment> {
+	public async execute({
+		provider,
+		date,
+		provider_id,
+	}: Request): Promise<Appointment> {
 		const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 		const alteredDate = startOfHour(date);
 
-		if (appointmentsRepository.findByDate(alteredDate)) {
+		const findRespository = await appointmentsRepository.findByDate(
+			alteredDate,
+		);
+		if (findRespository) {
 			throw Error('This appointments is already booked');
 		}
 
 		const appointment = appointmentsRepository.create({
+			provider_id,
 			provider,
 			date: alteredDate,
 		});

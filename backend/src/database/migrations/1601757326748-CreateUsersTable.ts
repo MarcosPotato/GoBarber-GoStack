@@ -1,13 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-// Vc só pode alterar uma migrations se ele não foi enviada pro git, caso tenha criar uma migration que altere os dados da antiga
-
-export default class CreateAppointments1601752185342
+export default class CreateUsersTable1601757326748
 	implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.createTable(
 			new Table({
-				name: 'appointments',
+				name: 'users',
 				columns: [
 					{
 						name: 'id',
@@ -17,14 +15,20 @@ export default class CreateAppointments1601752185342
 						default: 'uuid_generate_v4()',
 					},
 					{
-						name: 'provider',
+						name: 'name',
 						type: 'varchar',
 						isNullable: false,
 					},
 					{
-						name: 'date',
-						type: 'timestamp with time zone', // só funciona no postgres
+						name: 'password',
+						type: 'varchar',
 						isNullable: false,
+					},
+					{
+						name: 'email',
+						type: 'varchar', // só funciona no postgres
+						isNullable: false,
+						isUnique: true,
 					},
 					{
 						name: 'created_at',
@@ -42,6 +46,6 @@ export default class CreateAppointments1601752185342
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('appointments');
+		await queryRunner.dropTable('users');
 	}
 }
