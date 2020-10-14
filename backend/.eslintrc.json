@@ -24,7 +24,8 @@
     ],
     "rules": {
 		"class-methods-use-this": "off",
-		"@typescript-eslint/camelcase": "off",
+		"camelcase":"off",
+		"no-shadow":"off",
 		"import/extensions": [
 			"error",
 			"ignorePackages",
